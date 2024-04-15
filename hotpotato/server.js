@@ -47,7 +47,9 @@ const wsServer = new WebSocket.Server({server:server});
   // 'PASS_POTATO' => passThePotatoTo(newPotatoHolderIndex)
 
   wsServer.on('connection',(socket) => {
-
+    socket.on('message', (data) => {
+      console.log(data);
+    });
   });
 
 
