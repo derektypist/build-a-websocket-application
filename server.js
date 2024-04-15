@@ -46,6 +46,10 @@ const wsServer = new WebSocket.Server({server:server});
   // 'NEW_USER' => handleNewUser(socket)
   // 'PASS_POTATO' => passThePotatoTo(newPotatoHolderIndex)
 
+  wsServer.on('connection',(socket) => {
+
+  });
+
 
 ///////////////////////////////////////////////
 ////////////// HELPER FUNCTIONS ///////////////
