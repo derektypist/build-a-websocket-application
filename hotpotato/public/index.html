@@ -81,7 +81,17 @@
           // 'GAME_OVER' => endGame()
           wsClient.onmessage = (messageEvent) => {
             const { type, payload } = JSON.parse(messageEvent.data);
-            
+            switch (type) {
+              case SERVER.MESSAGE.GAME_FULL:
+                updateDisplay('The game is full :(');
+                break;
+              case SERVER.MESSAGE.PLAYER_ASSIGNMENT:
+                setPlayerIndex(payload.clientPlayerIndex);
+                break;
+              default:
+                break;
+            }
+
           }
       
 
