@@ -51,6 +51,11 @@ const wsServer = new WebSocket.Server({server});
     socket.on('message', (data) => {
       console.log(data);
       const {type, payload} = JSON.parse(data);
+      switch (type) {
+        case CLIENT.MESSAGE.NEW_USER:
+          handleNewUser(socket);
+          break;
+      }
     });
   });
 
