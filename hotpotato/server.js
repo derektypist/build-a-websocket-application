@@ -94,7 +94,10 @@ function handleNewUser(socket) {
   // If 4 players are already in the game...
   else {
     // TODO: Send GAME_FULL to the socket
-    
+    const message = {
+      type: SERVER.MESSAGE.GAME_FULL
+    };
+    socket.send(JSON.stringify(message));
 
   }
 }
