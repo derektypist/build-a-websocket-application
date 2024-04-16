@@ -88,6 +88,9 @@
               case SERVER.MESSAGE.PLAYER_ASSIGNMENT:
                 setPlayerIndex(payload.clientPlayerIndex);
                 break;
+              case SERVER.BROADCAST.NEW_POTATO.HOLDER:
+                updateCurrentPotatoHolder(payload.newPotatoHolderIndex);
+                break;
               default:
                 break;
             }
