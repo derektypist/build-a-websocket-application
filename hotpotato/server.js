@@ -21,7 +21,7 @@ let nextPlayerIndex = 0;
 // Create the HTTP server
 const server = http.createServer((req, res) => {
   // get the file path from req.url, or '/public/index.html' if req.url is '/'
-  const filePath = ( req.url === '/' ) ? '/public/index.html' : req.url;
+  const filePath = (req.url === '/') ? '/public/index.html' : req.url;
 
   // determine the contentType by the file extension
   const extname = path.extname(filePath);
@@ -39,25 +39,25 @@ const server = http.createServer((req, res) => {
 ///////////////////////////////////////////////
 
 // TODO: Create the WebSocket Server (ws) using the HTTP server
-const wsServer = new WebSocket.Server({server});
+const wsServer = new WebSocket.Server({ server });
 
 // TODO: Define the websocket server 'connection' handler
 // TODO: Define the socket 'message' handler
-  // 'NEW_USER' => handleNewUser(socket)
-  // 'PASS_POTATO' => passThePotatoTo(newPotatoHolderIndex)
+// 'NEW_USER' => handleNewUser(socket)
+// 'PASS_POTATO' => passThePotatoTo(newPotatoHolderIndex)
 
-  wsServer.on('connection',(socket) => {
-    console.log('A new client has joined the server!');
-    socket.on('message', (data) => {
-      console.log(data);
-      const {type, payload} = JSON.parse(data);
-      switch (type) {
-        case CLIENT.MESSAGE.NEW_USER:
-          handleNewUser(socket);
-          break;
-      }
-    });
+wsServer.on('connection', (socket) => {
+  console.log('A new client has joined the server!');
+  socket.on('message', (data) => {
+    console.log(data);
+    const { type, payload } = JSON.parse(data);
+    switch (type) {
+      case CLIENT.MESSAGE.NEW_USER:
+        handleNewUser(socket);
+        break;
+    }
   });
+});
 
 
 ///////////////////////////////////////////////
@@ -79,24 +79,24 @@ function handleNewUser(socket) {
     // TODO: Send PLAYER_ASSIGNMENT to the socket with a clientPlayerIndex
     const message = {
       type: SERVER.MESSAGE.PLAYER_ASSIGNMENT,
-      payload: {clientPlayerIndex: nextPlayerIndex}
+      payload: { clientPlayerIndex: nextPlayerIndex }
     };
     socket.send(JSON.stringify(message));
-    
+
     // Then, increment the number of players in the game
     nextPlayerIndex++;
-    
+
     // If they are the 4th player, start the game
     if (nextPlayerIndex === 4) {
       // Choose a random potato holder to start
       const randomFirstPotatoHolder = Math.floor(Math.random() * 4);
       passThePotatoTo(randomFirstPotatoHolder);
-      
+
       // Start the timer
       startTimer();
     }
-  } 
-  
+  }
+
   // If 4 players are already in the game...
   else {
     // TODO: Send GAME_FULL to the socket
@@ -111,18 +111,21 @@ function handleNewUser(socket) {
 
 function passThePotatoTo(newPotatoHolderIndex) {
   // TODO: Broadcast a NEW_POTATO_HOLDER message with the newPotatoHolderIndex
-  
+  broadcast({
+    type: SERVER.BROADCAST.NEW_POTATO_HOLDER,
+    payload: { newPotatoHolderIndex }
+  });
 }
 
 function startTimer() {
   // Set the clock to start at MAX_TIME (30)
   let clockValue = MAX_TIME;
-  
+
   // Start the clock ticking
   const interval = setInterval(() => {
     if (clockValue > 0) {
       // TODO: broadcast 'COUNTDOWN' with the clockValue
-      
+
 
       // decrement until the clockValue reaches 0
       clockValue--;
@@ -132,9 +135,9 @@ function startTimer() {
     else {
       clearInterval(interval); // stop the timer
       nextPlayerIndex = 0; // reset the players index
-      
+
       // TODO: Broadcast 'GAME_OVER'
-   
+
     }
   }, 1000);
 }
