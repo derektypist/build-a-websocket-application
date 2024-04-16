@@ -94,6 +94,9 @@
               case SERVER.BROADCAST.COUNTDOWN:
                 countDown(payload.clockValue);
                 break;
+              case SERVER.BROADCAST.GAME_OVER:
+                endGame();
+                break;
               default:
                 break;
             }
