@@ -71,7 +71,11 @@ function handleNewUser(socket) {
   // Until there are 4 players in the game....
   if (nextPlayerIndex < 4) {
     // TODO: Send PLAYER_ASSIGNMENT to the socket with a clientPlayerIndex
-    
+    const message = {
+      type: SERVER.MESSAGE.PLAYER_ASSIGNMENT,
+      payload: {clientPlayerIndex: nextPlayerIndex}
+    };
+    socket.send(JSON.stringify(message));
     
     // Then, increment the number of players in the game
     nextPlayerIndex++;
