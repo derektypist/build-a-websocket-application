@@ -91,6 +91,9 @@
               case SERVER.BROADCAST.NEW_POTATO_HOLDER:
                 updateCurrentPotatoHolder(payload.newPotatoHolderIndex);
                 break;
+              case SERVER.BROADCAST.COUNTDOWN:
+                countDown(payload.clockValue);
+                break;
               default:
                 break;
             }
