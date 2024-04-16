@@ -142,6 +142,7 @@ function startTimer() {
       nextPlayerIndex = 0; // reset the players index
 
       // TODO: Broadcast 'GAME_OVER'
+      broadcast({type: SERVER.BROADCAST.GAME_OVER});
 
     }
   }, 1000);
